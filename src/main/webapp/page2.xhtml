@@ -6,17 +6,19 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <head>
 <title>DevOps Class</title>
+h1 {text-align: center;}
+	
 </head>
 <body bgcolor="#E6E6A">
 
 <f:view>
-	<h:outputText
+	<h1:outputText
 		value="Hello #{helloWorldBacking.name}. Happy Learning!" />
-	<h:form id="form2">
-		<h:commandLink id="link1" action="back">
-			<h:outputText id="linkText" value="GO HOME" />
-		</h:commandLink>
-	</h:form>
+	<h1:form id="form2">
+		<h1:commandLink id="link1" action="back">
+			<h1:outputText id="linkText" value="GO HOME" />
+		</h1:commandLink>
+	</h1:form>
 </f:view>
 </body>
 </html>
