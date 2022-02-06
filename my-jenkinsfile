@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+    stages {
+        stage('git source code') {
+            steps {
+                git credentialsId: 'bit', url: 'https://ijazbro@bitbucket.org/ijazbro/devops-docker-javaapp.git'
+                }
+        }
+        stage('test') {
+            steps {
+                sh "mvn test"
+                }
+        }
+        stage('checkstyle') {
+            steps {
+                sh "mvn checkstyle:checkstyle"
+                recordIssues(tools: [checkStyle(reportEncoding: 'UTF-8')])
+                
+                }
+        }
+        stage('pmd analysis') {
+            steps {
+                sh "mvn pmd:pmd"
+                recordIssues(tools: [pmdParser(reportEncoding: 'Big5-HKSCS')])
+                
+                }
+        }
+        
+        stage('sonar check') {
+            steps {
+                script {
+                    withSonarQubeEnv(credentialsId: 'Sonar') {
+                      sh "mvn sonar:sonar"   
+                }
+                  timeout(time: 1, unit: 'HOURS') {
+                     def qg = waitForQualityGate()
+                      if (qg.status != 'OK') {
+                           error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                           echo "Build failed due to sonar quality gate failure"
+                      }
+                    }
+                
+                
+                }
+        }
+        
+        }
+        
+         stage('build') {
+            steps {
+                sh "mvn package"
+                
+                }
+        }
+    
+    }}
