@@ -74,7 +74,7 @@ pipeline {
                                   }
                 }
         }
-        }
+        
         post {
          success {
          mail bcc: '', body: '''Build Success
@@ -87,6 +87,5 @@ pipeline {
 
 }
         
-   }     
-    
+         
     }}
