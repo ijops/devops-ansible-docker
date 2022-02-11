@@ -74,6 +74,18 @@ pipeline {
                                   }
                 }
         }
+        post {
+         success {
+         mail bcc: '', body: '''Build Success
+''', cc: '', from: '', replyTo: '', subject: 'From Jenkins@tset.server', to: 'ijazm@gnrgy.com'
+         }
+          failure {
+            echo 'I failed :('
+            mail bcc: '', body: '''Build Failed
+''', cc: '', from: '', replyTo: '', subject: 'From Jenkins@tset.server', to: 'ijazm@gnrgy.com'
+
+}
+        
         
     
     }}
