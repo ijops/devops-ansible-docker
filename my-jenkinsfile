@@ -63,8 +63,7 @@ pipeline {
         }
         stage('docker build') {
             steps {
-                sh "sudo docker stop devops-docker-javaapp"
-                sh "sudo docker rm  devops-docker-javaapp"
+                sh "sudo sh docker.sh"
                 sh "sudo docker image prune -a -f"
                 sh "sudo docker build -t ijazu/devops-docker-javaapp:$BUILD_ID -f my-dockerfile ."
                 sh "sudo docker run -itd --name devops-docker-javaapp -p 8084:8080 ijazu/devops-docker-javaapp:$BUILD_ID"
