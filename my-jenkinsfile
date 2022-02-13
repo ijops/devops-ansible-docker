@@ -78,12 +78,12 @@ pipeline {
         post {
          success {
         mail bcc: '', body: '''Build Success
-''', cc: '', from: 'itsupport@gnrgy.com', replyTo: '', subject: 'From Jenkins@tset.server', to: 'ijazm@gnrgy.com'
+''', cc: '', from: 'itsupport@gnrgy.com', replyTo: '', subject: 'From Jenkins@GCP.server', to: 'ijazm@gnrgy.com'
          }
           failure {
             echo 'I failed :('
             mail bcc: '', body: '''Build Success
-''', cc: '', from: 'itsupport@gnrgy.com', replyTo: '', subject: 'From Jenkins@tset.server', to: 'ijazm@gnrgy.com'
+''', cc: '', from: 'itsupport@gnrgy.com', replyTo: '', subject: 'From Jenkins@GCP.server', to: 'ijazm@gnrgy.com'
 
 }
         
