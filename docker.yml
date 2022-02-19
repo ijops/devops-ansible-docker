@@ -2,8 +2,7 @@
 -  name: Docker build and run
    hosts: localhost
    tasks:
-     
-     - name:  Remove current
+      - name:  Remove current
        command: sh /var/lib/jenkins/workspace/devops-docker-javaapp/docker.sh
      - name:  Build
        shell: docker build -t ijazu/devops-docker-javaapp:$BUILD_ID -f my-dockerfile .
