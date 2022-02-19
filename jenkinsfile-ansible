@@ -1,0 +1,95 @@
+pipeline {
+     agent {
+        label params.Target == "any" ? "" : params.Target 
+    }
+   
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
+        choice(name: "Target", choices: [ "any", "dkas", "standby", "production", "Master"])
+    }
+    stages {
+        stage('git source code') {
+            steps {
+                git credentialsId: 'bit', branch: "${params.BRANCH}", url: 'https://ijazbro@bitbucket.org/ijazbro/devops-docker-javaapp.git'
+                }
+        }
+        stage('test') {
+            steps {
+                sh "mvn test"
+                }
+        }
+        stage('checkstyle') {
+            steps {
+                sh "mvn checkstyle:checkstyle"
+                recordIssues(tools: [checkStyle(reportEncoding: 'UTF-8')])
+                
+                }
+        }
+        stage('pmd analysis') {
+            steps {
+                sh "mvn pmd:pmd"
+                recordIssues(tools: [pmdParser(reportEncoding: 'Big5-HKSCS')])
+                
+                }
+        }
+        
+        stage('sonar check') {
+            steps {
+                script {
+                    withSonarQubeEnv(credentialsId: 'Sonar') {
+                      sh "mvn sonar:sonar"   
+                }
+                
+                  
+                  timeout(time: 1, unit: 'HOURS') {
+                     def qg = waitForQualityGate()
+                      if (qg.status != 'OK') {
+                           error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                           echo "Build failed due to sonar quality gate failure"
+                      }
+                    }
+                
+                
+                }
+        }
+        
+        }
+        
+         stage('build') {
+            steps {
+                sh "mvn package"
+                
+                }
+        }
+        stage('Docker ansible build') {
+            steps {
+                sh "ansible-playbook docker.yml"
+                
+                }
+        }
+        
+        stage('docker push') {
+            steps {
+                
+                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
+                 sh "sudo docker push ijazu/devops-docker-javaapp:$BUILD_ID "
+                                  }
+                }
+        }
+        }
+        
+        post {
+         success {
+        nexusArtifactUploader artifacts: [[artifactId: 'BUILD_ID', classifier: '', file: 'target/devOpsWeb.war', type: 'war']], credentialsId: 'gnrgy-nexus', groupId: 'QA', nexusUrl: 'ocpp2.gnrgy.com:8888', nexusVersion: 'nexus3', protocol: 'http', repository: 'myrepo', version: 'BUILD_ID'
+        mail bcc: '', body: '''Build Success
+''', cc: '', from: 'itsupport@gnrgy.com', replyTo: '', subject: 'From Jenkins@GCP.server', to: 'ijazm@gnrgy.com'
+         }
+          failure {
+            echo 'I failed :('
+            mail bcc: '', body: '''Build Success
+''', cc: '', from: 'itsupport@gnrgy.com', replyTo: '', subject: 'From Jenkins@GCP.server', to: 'ijazm@gnrgy.com'
+
+}
+        
+         
+    }}
