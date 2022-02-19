@@ -1,6 +1,6 @@
 ---
--  name: Docker 
-   hosts: dkas
+-  name: Docker build and run
+   hosts: localhost
    tasks:
      
      - name:  Remove current
