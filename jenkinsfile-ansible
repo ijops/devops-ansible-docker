@@ -63,7 +63,7 @@ pipeline {
         }
         stage('Docker ansible build') {
             steps {
-                sh "ansible-playbook docker.yml"
+                sh "ansible-playbook /var/lib/jenkins/workspace/devops-docker-javaapp/docker.yml"
                 
                 }
         }
