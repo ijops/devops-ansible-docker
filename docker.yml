@@ -4,7 +4,7 @@
    tasks:
      
      - name:  Remove current
-       shell: sh docker.sh
+       command: sh docker.sh
      - name:  Build
        shell: docker build -t ijazu/devops-docker-javaapp:$BUILD_ID -f my-dockerfile .
       - name: docker run
