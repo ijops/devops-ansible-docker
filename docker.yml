@@ -1,0 +1,14 @@
+---
+-  name: Docker 
+   hosts: dkas
+   tasks:
+     
+     - name:  Remove current
+       shell: sh docker.sh
+     - name:  Build
+       shell: docker build -t ijazu/devops-docker-javaapp:$BUILD_ID -f my-dockerfile .
+      - name: docker run
+       shell: docker run -itd --name ansible_test -p 80:80 ijazu/mysite-33:latest 
+     - name:  Image prune
+       shell: docker image prune -a -f 
+     
