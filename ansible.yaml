@@ -2,12 +2,11 @@
 -  name: Docker build and run
    hosts: localhost
    tasks:
-      - name:  Remove current
+     - name: remove current
        command: sh /var/lib/jenkins/workspace/devops-docker-javaapp/docker.sh
      - name:  Build
        shell: docker build -t ijazu/devops-docker-javaapp:$BUILD_ID -f my-dockerfile .
-      - name: docker run
+     - name: docker run
        shell: docker run -itd --name ansible_test -p 80:80 ijazu/mysite-33:latest 
      - name:  Image prune
        shell: docker image prune -a -f 
-     
