@@ -61,14 +61,13 @@ pipeline {
                 
                 }
         }
-        stage('docker build') {
+        stage('docker build and push') {
             steps {
-                sh "sudo sh docker.sh"
+                
                 sh "sudo docker image prune -a -f"
                 sh "sudo docker build -t ijazu/devops-docker-javaapp:$BUILD_ID -f my-dockerfile ."
-                sh "sudo docker run -itd --name devops-docker-javaapp -p 8084:8080 ijazu/devops-docker-javaapp:$BUILD_ID"
                 
-                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
+                 withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
                  sh "sudo docker push ijazu/devops-docker-javaapp:$BUILD_ID "
                                   }
                 }
