@@ -3,14 +3,8 @@
    hosts: dkas
    become: true
    tasks:
-     - name: docker container check
-       shell: sh /opt/docker.sh
-     - name: script permission
-       shell: chmod +x /opt/docker.sh
-     - name: stop container
-       shell: docker container stop ansible_docker_project
      - name: remove container
-       shell: docker container rm ansible_docker_project
+       shell: docker container rm $(docker container ls -aq) -f
      - name: remove docker image
        shell: docker image prune -a -f
      - name: create new container
