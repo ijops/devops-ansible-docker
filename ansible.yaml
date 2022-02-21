@@ -1,9 +1,12 @@
 ---
 -  name: Docker run
    hosts: dkas
+   become: true
    tasks:
      - name: docker container check
-       shell: 
+       shell: sh /opt/docker.sh
+     - name: script permission
+       shell: chmod +x /opt/docker.sh
      - name: stop container
        shell: docker container stop ansible_docker_project
      - name: remove container
