@@ -1,12 +1,17 @@
 ---
 -  name: Docker build and run
-   hosts: localhost
+   hosts: dkas
    tasks:
-     - name: remove current
-       command: sh /var/lib/jenkins/workspace/devops-docker-javaapp/docker.sh
-     - name:  Build
-       shell: docker build -t ijazu/devops-docker-javaapp:$BUILD_ID -f my-dockerfile .
-     - name: docker run
-       shell: docker run -itd --name ansible_test -p 80:80 ijazu/devops-docker-javaapp:$BUILD_ID
-     - name:  Image prune
-       shell: docker image prune -a -f 
+     - name: stop container
+       shell: docker container stop ansible_test
+     - name: remove container
+       shell: docker container rm ansible_test
+     - name: remove docker image
+       shell: docker image rmi ijazu/devops-docker-javaapp:$BUILD_ID
+     - name: create new container
+       shell: docker container run -itd --name ansible_test -p 80:80 ijazu/devops-docker-javaapp:$BUILD_ID
+     
+     
+     
+     
+    
