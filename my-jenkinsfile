@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('git source code') {
             steps {
-                git credentialsId: 'bit', branch: "${params.BRANCH}", url: 'https://ijazbro@bitbucket.org/ijazbro/devops-docker-javaapp.git'
+                git credentialsId: 'bit', branch: "${params.BRANCH}", url: 'https://github.com/ijops/devops-docker-javaapp.git'
                 }
         }
         stage('test') {
