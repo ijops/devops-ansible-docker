@@ -36,7 +36,7 @@ pipeline {
         stage('sonar check') {
             steps {
                 script {
-                    withSonarQubeEnv(credentialsId: 'Sonar') {
+                    withSonarQubeEnv(credentialsId: 'sonar') {
                       sh "mvn sonar:sonar"   
                 }
                 
@@ -82,7 +82,7 @@ pipeline {
         
         post {
          success {
-        nexusArtifactUploader artifacts: [[artifactId: 'BUILD_ID', classifier: '', file: 'target/devOpsWeb.war', type: 'war']], credentialsId: 'gnrgy-nexus', groupId: 'QA', nexusUrl: 'ocpp2.gnrgy.com:8888', nexusVersion: 'nexus3', protocol: 'http', repository: 'myrepo', version: 'BUILD_ID'
+        nexusArtifactUploader artifacts: [[artifactId: 'BUILD_ID', classifier: '', file: 'target/devOpsWeb.war', type: 'war']], credentialsId: 'my-nexus', groupId: 'QA', nexusUrl: '34.129.13.250:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'myrepo', version: 'BUILD_ID'
         mail bcc: '', body: '''Build Success
 ''', cc: '', from: 'itsupport@gnrgy.com', replyTo: '', subject: 'From Jenkins@GCP.server', to: 'ijazm@gnrgy.com'
          }
