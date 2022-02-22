@@ -3,8 +3,10 @@
    hosts: localhost
    become: true
    tasks:
+     - name: stop container
+       shell: docker stop ansible_docker_project
      - name: remove container
-       shell: docker container rm $(docker container ls -aq) -f
+       shell: docker rm  ansible_docker_project
      - name: remove docker image
        shell: docker image prune -a -f
      - name: create new container
