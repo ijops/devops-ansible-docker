@@ -88,7 +88,7 @@ pipeline {
          }
           failure {
             echo 'I failed :('
-            mail bcc: '', body: '''Build Success
+            mail bcc: '', body: '''Build Failed
 ''', cc: '', from: 'itsupport@gnrgy.com', replyTo: '', subject: 'From Jenkins@GCP.server', to: 'ijazm@gnrgy.com'
 
 }
