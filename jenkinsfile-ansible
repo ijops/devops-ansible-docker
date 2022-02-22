@@ -63,6 +63,8 @@ pipeline {
         }
         stage('Docker ansible build') {
             steps {
+                sh "docker build . -t ijazu/$BUILD_NUMBER:BUILD_ID"
+                sh " "
                 sh "ansible-playbook /var/lib/jenkins/workspace/devops-docker-javaapp/ansible.yaml"
                 
                 }
