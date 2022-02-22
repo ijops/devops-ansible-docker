@@ -65,7 +65,7 @@ pipeline {
             steps {
                 sh "sudo docker build -t ijazu/devops-ansible-docker:$BUILD_ID -f my-dockerfile ."
                 sh "sudo docker tag ijazu/devops-ansible-docker:$BUILD_ID ijazu/$JOB_NAME:latest"
-                sh "ansible-playbook /var/lib/jenkins/workspace/devops-docker-javaapp/ansible.yaml"
+                sh "ansible-playbook /var/lib/jenkins/workspace/devops-ansible-docker/ansible.yaml"
                 
                 }
         }
