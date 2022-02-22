@@ -61,11 +61,11 @@ pipeline {
                 
                 }
         }
-        stage('Docker ansible build') {
+        stage('Docker build') {
             steps {
                 sh "sudo docker build -t ijazu/devops-ansible-docker:$BUILD_ID -f my-dockerfile ."
                 sh "sudo docker tag ijazu/devops-ansible-docker:$BUILD_ID ijazu/$JOB_NAME:latest"
-                sh "ansible-playbook /var/lib/jenkins/workspace/devops-ansible-docker/ansible.yaml"
+                
                 
                 }
         }
@@ -76,6 +76,7 @@ pipeline {
                 withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
                  sh "sudo docker push ijazu/devops-ansible-docker:latest "
                                   }
+                sh "ansible-playbook /var/lib/jenkins/workspace/devops-ansible-docker/ansible.yaml"                  
                 }
         }
         }
