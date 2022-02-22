@@ -1,6 +1,6 @@
 ---
 -  name: Docker run
-   hosts: dkas
+   hosts: localhost
    become: true
    tasks:
      - name: remove container
