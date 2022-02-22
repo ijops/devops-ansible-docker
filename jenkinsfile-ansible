@@ -63,7 +63,7 @@ pipeline {
         }
         stage('Docker build') {
             steps {
-                sh "sudo docker build -t ijazu/dansible_docker:$BUILD_ID -f my-dockerfile ."
+                sh "sudo docker build -t ijazu/ansible_docker:$BUILD_ID -f my-dockerfile ."
                 sh "sudo docker tag ijazu/ansible_docker:$BUILD_ID ijazu/$JOB_NAME:latest"
                 
                 
