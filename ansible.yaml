@@ -8,7 +8,7 @@
      - name: remove docker image
        shell: docker image prune -a -f
      - name: create new container
-       shell: docker container run -itd --name ansible_docker_project -p 80:80 ijazu/$JOB_NAME:latest
+       shell: docker container run -itd --name ansible_docker_project -p 80:80 ijazu/devops-ansible-docker:latest
      
      
      
